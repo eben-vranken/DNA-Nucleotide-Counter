@@ -37,4 +37,4 @@ def csv_output(nucleotide_count):
     return buffer.getvalue()
 
 def txt_output(nucleotide_count):
-    return ""
+    return "\n".join(f"{base}: {count}" for base, count in nucleotide_count.items())
