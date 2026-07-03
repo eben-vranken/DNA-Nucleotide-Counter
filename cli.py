@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
 
+
+
 def read_args():
     parser = ArgumentParser()
     parser.add_argument("file", help="Data file to read")
@@ -13,3 +15,4 @@ def read_args():
 
 if  __name__ == "__main__":
     args = read_args()
+    
