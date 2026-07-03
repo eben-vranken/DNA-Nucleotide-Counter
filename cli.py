@@ -14,28 +14,23 @@ def read_args():
 
     return parser.parse_args()
 
-if  __name__ == "__main__":
+def main():
     args = read_args()
-
     try:
         nucleic_acid_string = parser.read_file(args.file)
     except FileNotFoundError:
         print(f"Error: The file '{args.file}' could not be found.", file=sys.stderr)
-        exit(1)
-    except PermissionError:
-        print(f"Error: Permission denied when trying to read '{args.file}'.", file=sys.stderr)
-        exit(1)
+        sys.exit(1)
+        
     nucleotide_counts = parser.count_nucleotides(nucleic_acid_string)
     
-    # Sanitize based on mode
     if args.mode == "dna":
         nucleotide_counts.pop("U", None)
     else:
         nucleotide_counts.pop("T", None)
 
-    # Merge gap
-    dot_count = nucleotide_counts.pop(".", None)
-    dash_count = nucleotide_counts.pop("-", None)
+    dot_count = nucleotide_counts.pop(".", None) or 0
+    dash_count = nucleotide_counts.pop("-", None) or 0
     nucleotide_counts["Gap"] = dot_count + dash_count
 
     if args.output:
@@ -69,3 +64,6 @@ if  __name__ == "__main__":
             # {count:>5}    -> Right-align count in a 5-character column
             # {percent:>5.1f} -> Right-align percentage with 1 decimal place in a 5-character column
             print(f"{label:<15} ({symbol:^3}): {count:>5}  ({percent:>5.1f}%)")
+
+if  __name__ == "__main__":
+    main()
