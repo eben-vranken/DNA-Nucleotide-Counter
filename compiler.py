@@ -2,7 +2,10 @@ import json
 import io
 import csv
 
-def output(nucleotide_count: dict[str, int], format: str, file_location):
+def output(nucleotide_count: dict[str, int], args):
+    file_location = args.output
+    format = args.format
+
     file = build_file(format, nucleotide_count)
 
     file_path: str

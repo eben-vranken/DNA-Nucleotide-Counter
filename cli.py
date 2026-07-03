@@ -11,7 +11,8 @@ def read_args():
     parser.add_argument("--mode", choices=["dna", "rna"], default="dna", help="Analysis mode (dna/rna)")
     parser.add_argument("--format", choices=["json", "csv", "txt"], default="json", help="Output format (json/csv/txt)")
     parser.add_argument("--output", help="Output file path")
-
+    parser.add_argument("--gc", action="store_true", help="Calculate and include GC content percentage in the analysis")
+    
     return parser.parse_args()
 
 def main():
@@ -24,6 +25,9 @@ def main():
         
     nucleotide_counts = parser.count_nucleotides(nucleic_acid_string)
     
+    if args.gc:
+        nucleotide_counts["GC"] = parser.calculate_gc(nucleotide_counts)
+
     if args.mode == "dna":
         nucleotide_counts.pop("U", None)
     else:
@@ -34,7 +38,7 @@ def main():
     nucleotide_counts["Gap"] = dot_count + dash_count
 
     if args.output:
-        compiler.output(nucleotide_counts, args.format, args.output)
+        compiler.output(nucleotide_counts, args)
     else:
         TABLE_WIDTH = 38
 
@@ -64,6 +68,11 @@ def main():
             # {count:>5}    -> Right-align count in a 5-character column
             # {percent:>5.1f} -> Right-align percentage with 1 decimal place in a 5-character column
             print(f"{label:<15} ({symbol:^3}): {count:>5}  ({percent:>5.1f}%)")
+
+        if args.gc:
+            print("=" * TABLE_WIDTH)
+            gc = 100*(nucleotide_counts["G"] + nucleotide_counts["C"])/(nucleotide_counts["A"] + nucleotide_counts["C"] + nucleotide_counts["G"] + nucleotide_counts["T"])
+            print(f"GC:\t\t{gc:>5.2f}%")
 
 if  __name__ == "__main__":
     main()

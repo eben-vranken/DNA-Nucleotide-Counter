@@ -61,3 +61,6 @@ def count_nucleotides(dna_string: str):
         else:
             print("Unknown symbol: %s" % c)
     return nucleotide_counts
+
+def calculate_gc(nucleotide_counts):
+    return 100*(nucleotide_counts["G"] + nucleotide_counts["C"])/(nucleotide_counts["A"] + nucleotide_counts["C"] + nucleotide_counts["G"] + nucleotide_counts["T"])
