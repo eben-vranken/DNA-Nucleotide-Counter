@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="#"><img src="https://img.shields.io/badge/Coverage- 94%25-brightgreen.svg" alt="Coverage"></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a>
     <a href="https://github.com/eben-vranken/nucleotide-counter/actions">
     <img src="https://github.com/eben-vranken/nucleotide-counter/actions/workflows/test.yml/badge.svg" alt="Build Status">
     </a>
