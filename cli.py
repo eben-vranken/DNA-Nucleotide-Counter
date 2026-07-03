@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import parser
 import compiler
+import sys
 
 def read_args():
     parser = ArgumentParser()
@@ -15,7 +16,15 @@ def read_args():
 
 if  __name__ == "__main__":
     args = read_args()
-    nucleic_acid_string = parser.read_file(args.file)
+
+    try:
+        nucleic_acid_string = parser.read_file(args.file)
+    except FileNotFoundError:
+        print(f"Error: The file '{args.file}' could not be found.", file=sys.stderr)
+        exit(1)
+    except PermissionError:
+        print(f"Error: Permission denied when trying to read '{args.file}'.", file=sys.stderr)
+        exit(1)
     nucleotide_counts = parser.count_nucleotides(nucleic_acid_string)
     
     # Sanitize based on mode
